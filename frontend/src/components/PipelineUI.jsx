@@ -3,19 +3,28 @@ import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
 import { useStore } from "../utils/store";
 import { shallow } from "zustand/shallow";
 import { InputNode } from "../nodes/InputNode";
-import { LLMNode } from "../nodes/LLmNode";
+import { LLMNode } from "../nodes/LLMNode";
 import { OutputNode } from "../nodes/OutputNode";
 import { TextNode } from "../nodes/TextNode";
-
 import "reactflow/dist/style.css";
+import { APINode } from "../nodes/APINode";
+import { DataTransformNode } from "../nodes/DataTransformerNode";
+import { ConditionNode } from "../nodes/ConditionNode";
+import { DebugerNode } from "../nodes/DebugNode";
+import { MemoryNode } from "../nodes/MemoryNode";
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
 const nodeTypes = {
   customInput: InputNode,
+  dataTransformer: DataTransformNode,
+  condition: ConditionNode,
+  debug: DebugerNode,
+  memory: MemoryNode,
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  api: APINode,
 };
 
 const selector = (state) => ({
@@ -88,7 +97,10 @@ export const PipelineUI = () => {
 
   return (
     <>
-      <div ref={reactFlowWrapper} style={{ width: "100wv", height: "70vh" }}>
+      <div
+        ref={reactFlowWrapper}
+        className="w-screen lg:h-[75vh] h-[70vh] bg-[#fdfafab0]"
+      >
         <ReactFlow
           nodes={nodes}
           edges={edges}

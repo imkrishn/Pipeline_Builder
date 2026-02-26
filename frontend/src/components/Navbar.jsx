@@ -2,7 +2,7 @@ import { ChevronDown, Play, Save, Menu, Settings, Bell } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <header className="w-full lg:h-20 h-14 lg:px-6 px-2 bg-white border-b border-gray-200 flex items-center justify-between">
+    <header className="w-full lg:h-20 h-14 lg:px-6 px-2 flex items-center justify-between">
       {/* logo*/}
 
       <img
@@ -32,7 +32,7 @@ const Navbar = () => {
         <img
           src="/user.png"
           alt="User"
-          className="lg:h-14 h-10 lg:w-14 w-10 rounded-full object-cover rounded-full hover:bg-gray-100 cursor-pointer transition"
+          className="lg:h-14 h-10 lg:w-14 w-10 object-cover rounded-full hover:bg-gray-100 cursor-pointer transition"
         />
       </div>
     </header>
