@@ -1,11 +1,6 @@
 import { useState } from "react";
-import { Handle, Position } from "reactflow";
-import {
-  UploadCloud,
-  FileText,
-  Type,
-  SquareArrowRightEnter,
-} from "lucide-react";
+import { UploadCloud, FileText, Type } from "lucide-react";
+import { BaseNode } from "../components/BaseNode";
 
 export const InputNode = ({ id, data }) => {
   const [currName, setCurrName] = useState(
@@ -20,16 +15,13 @@ export const InputNode = ({ id, data }) => {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm w-56 p-3 relative hover:shadow-md transition">
-      {/* header */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-1 text-green-600 text-xs font-semibold">
-          <FileText size={14} />
-          Data Input
-        </div>
-        <SquareArrowRightEnter size={15} className="text-green-600 " />
-      </div>
-
+    <BaseNode
+      id={id}
+      type="customInput"
+      title="Input"
+      icon={FileText}
+      rightHandles={["output"]}
+    >
       <input
         type="text"
         value={currName}
@@ -70,13 +62,6 @@ export const InputNode = ({ id, data }) => {
           )}
         </label>
       )}
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-value`}
-        className="!w-2.5 !h-2.5 !bg-green-500 !border-2 !border-white"
-      />
-    </div>
+    </BaseNode>
   );
 };

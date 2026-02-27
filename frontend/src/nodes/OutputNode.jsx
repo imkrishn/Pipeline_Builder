@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Handle, Position } from "reactflow";
 import { Download } from "lucide-react";
+import { BaseNode } from "../components/BaseNode";
 
 export const OutputNode = ({ id, data }) => {
   const [name, setName] = useState(
@@ -9,13 +9,13 @@ export const OutputNode = ({ id, data }) => {
   const [type, setType] = useState(data?.outputType || "Text");
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm w-56 p-3 relative hover:shadow-md transition">
-      {/* header */}
-      <div className="flex items-center gap-2 text-blue-600 text-xs font-semibold mb-2">
-        <Download size={14} />
-        Output
-      </div>
-
+    <BaseNode
+      id={id}
+      type="customOutput"
+      title="Output"
+      icon={Download}
+      leftHandles={["input"]}
+    >
       <input
         type="text"
         value={name}
@@ -33,14 +33,6 @@ export const OutputNode = ({ id, data }) => {
         <option value="Text">Text</option>
         <option value="Image">Image</option>
       </select>
-
-      {/* inpt connection*/}
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-value`}
-        className="!w-2.5 !h-2.5 !bg-blue-500 !border-2 !border-white"
-      />
-    </div>
+    </BaseNode>
   );
 };
