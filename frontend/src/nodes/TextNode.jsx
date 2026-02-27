@@ -43,7 +43,7 @@ export const TextNode = ({ id, data }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         className="w-full text-xs px-2 py-1.5 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-500 resize-none overflow-hidden"
-        placeholder="Enter text..."
+        placeholder="Enter text ...."
       />
     </BaseNode>
   );

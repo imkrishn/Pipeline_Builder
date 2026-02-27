@@ -1,4 +1,4 @@
-import { ChevronDown, Play, Save, Menu, Settings, Bell } from "lucide-react";
+import { Settings, Bell } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -10,15 +10,6 @@ const Navbar = () => {
         alt="DataPipeline Logo"
         className="lg:w-64 w-44 h-auto block"
       />
-
-      {/* breadcrumb */}
-      <div className="hidden md:flex items-center text-sm text-gray-500 gap-2">
-        <span className="hover:text-gray-700 cursor-pointer transition">
-          Pipelines
-        </span>
-        <span>&gt;</span>
-        <span className="text-gray-800 font-medium">My Data Pipeline</span>
-      </div>
 
       <div className="flex items-center gap-4">
         <Bell

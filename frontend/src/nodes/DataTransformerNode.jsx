@@ -11,9 +11,7 @@ export const DataTransformNode = ({ id }) => {
       leftHandles={["input"]}
       rightHandles={["output"]}
     >
-      <div className="text-[11px] text-gray-500 mb-2">
-        Modify or clean input data
-      </div>
+      <div className="text-[11px] text-gray-500 mb-2">Modify data</div>
     </BaseNode>
   );
 };

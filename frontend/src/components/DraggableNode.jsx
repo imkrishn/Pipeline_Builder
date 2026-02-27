@@ -24,15 +24,7 @@ export const DraggableNode = ({ type, label, icon: Icon }) => {
       onDragStart={(event) => onDragStart(event, type)}
       onDragEnd={onDragEnd}
       draggable
-      className={`
-        flex items-center gap-2
-        px-3 py-2
-        rounded-lg
-        text-xs font-medium
-        transition-all duration-200
-        cursor-grab
-        select-none
-        
+      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium  transition-all duration-200  cursor-grab select-none 
         ${
           isDragging
             ? "bg-gray-800 text-white scale-95 shadow-lg"

@@ -1,6 +1,6 @@
 import { Handle, Position } from "reactflow";
 
-const nodeColorMap = {
+const nodeColor = {
   customInput: "text-green-600",
   customOutput: "text-blue-600",
   llm: "text-purple-600",
@@ -21,19 +21,18 @@ export const BaseNode = ({
   leftHandles = [],
   rightHandles = [],
 }) => {
-  const theme = nodeColorMap[type] || "border-l-gray-400 bg-white";
+  const theme = nodeColor[type];
 
   return (
     <div
-      className={`bg-white border border-gray-200 rounded-xl shadow-sm w-56 p-3 relative hover:shadow-md transition ${theme}`}
+      className={`bg-white border border-gray-200 rounded-xl shadow-sm w-max max-w-56 p-3 relative hover:shadow-md transition ${theme}`}
     >
       <div className="flex items-center gap-1  text-xs font-semibold">
         <Icon size={14} />
         {title}
       </div>
 
-      {/* children component */}
-      <div className="p-3 text-xs text-gray-700">{children}</div>
+      <div className="p-3 text-xs text-gray-600">{children}</div>
 
       {/* left connection */}
       {leftHandles.map((handle, index) => (

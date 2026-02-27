@@ -13,7 +13,6 @@ export const useStore = create((set, get) => ({
   past: [],
   future: [],
 
-  //save current state
   saveHistory: () => {
     const { nodes, edges, past } = get();
 
@@ -46,7 +45,6 @@ export const useStore = create((set, get) => ({
     return newId;
   },
 
-  // add node
   addNode: (node) => {
     get().saveHistory();
 

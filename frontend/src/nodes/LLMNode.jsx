@@ -11,7 +11,7 @@ export const LLMNode = ({ id }) => {
       leftHandles={["system", "prompt"]}
       rightHandles={["response"]}
     >
-      <Cpu size={40} className="m-auto " />
+      <Cpu size={40} className="m-auto text-purple-600" />
     </BaseNode>
   );
 };

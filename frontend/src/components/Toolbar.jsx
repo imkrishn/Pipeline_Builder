@@ -20,17 +20,21 @@ export const Toolbar = () => {
         <DraggableNode type="customOutput" label="Output" />
         <DraggableNode type="text" label="Text" />
         <div className="flex items-center gap-3 lg:ml-28 mt-2 lg:mt-0 px-3 py-2">
-          <Undo
-            onClick={undo}
-            size={18}
-            className="text-gray-600 hover:text-gray-700 cursor-pointer hover:scale-110"
-          />
+          <div title="Undo">
+            <Undo
+              onClick={undo}
+              size={18}
+              className="text-gray-500 hover:text-gray-700 cursor-pointer hover:scale-110"
+            />
+          </div>
 
-          <Redo
-            onClick={redo}
-            size={18}
-            className="text-gray-600 hover:text-gray-700 cursor-pointer hover:scale-110"
-          />
+          <div title="Redo">
+            <Redo
+              onClick={redo}
+              size={18}
+              className="text-gray-500 hover:text-gray-700 cursor-pointer hover:scale-110"
+            />
+          </div>
 
           <div className="w-px h-5 bg-gray-200 mx-1"></div>
 
