@@ -1,20 +1,20 @@
 import { useState, useRef, useCallback } from "react";
 import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
-import { useStore } from "../utils/store";
-import { shallow } from "zustand/shallow";
+import { useStore } from "../context/store";
 import { InputNode } from "../nodes/InputNode";
-import { LLMNode } from "../nodes/LLMNode";
 import { OutputNode } from "../nodes/OutputNode";
 import { TextNode } from "../nodes/TextNode";
-import "reactflow/dist/style.css";
+import { LLMNode } from "../nodes/LLMNode";
 import { APINode } from "../nodes/APINode";
 import { DataTransformNode } from "../nodes/DataTransformerNode";
 import { ConditionNode } from "../nodes/ConditionNode";
 import { DebugerNode } from "../nodes/DebugNode";
 import { MemoryNode } from "../nodes/MemoryNode";
+import "reactflow/dist/style.css";
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
+
 const nodeTypes = {
   customInput: InputNode,
   dataTransformer: DataTransformNode,
@@ -40,52 +40,45 @@ const selector = (state) => ({
 export const PipelineUI = () => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const {
-    nodes,
-    edges,
-    getNodeID,
-    addNode,
-    onNodesChange,
-    onEdgesChange,
-    onConnect,
-  } = useStore(selector, shallow);
 
-  const getInitNodeData = (nodeID, type) => {
-    let nodeData = { id: nodeID, nodeType: `${type}` };
-    return nodeData;
-  };
+  const nodes = useStore((state) => state.nodes);
+  const edges = useStore((state) => state.edges);
+  const getNodeID = useStore((state) => state.getNodeID);
+  const addNode = useStore((state) => state.addNode);
+  const onNodesChange = useStore((state) => state.onNodesChange);
+  const onEdgesChange = useStore((state) => state.onEdgesChange);
+  const onConnect = useStore((state) => state.onConnect);
+
+  const getInitNodeData = (nodeID, type) => ({
+    id: nodeID,
+    nodeType: type,
+  });
 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-      if (event?.dataTransfer?.getData("application/reactflow")) {
-        const appData = JSON.parse(
-          event.dataTransfer.getData("application/reactflow"),
-        );
-        const type = appData?.nodeType;
 
-        // check if the dropped element is valid
-        if (typeof type === "undefined" || !type) {
-          return;
-        }
+      const appData = event.dataTransfer.getData("application/reactflow");
 
-        const position = reactFlowInstance.project({
-          x: event.clientX - reactFlowBounds.left,
-          y: event.clientY - reactFlowBounds.top,
-        });
+      if (!appData) return;
 
-        const nodeID = getNodeID(type);
-        const newNode = {
-          id: nodeID,
-          type,
-          position,
-          data: getInitNodeData(nodeID, type),
-        };
+      const { nodeType } = JSON.parse(appData);
 
-        addNode(newNode);
-      }
+      const position = reactFlowInstance.project({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+      });
+
+      const nodeID = getNodeID(nodeType);
+
+      addNode({
+        id: nodeID,
+        type: nodeType,
+        position,
+        data: getInitNodeData(nodeID, nodeType),
+      });
     },
     [reactFlowInstance],
   );
@@ -95,31 +88,56 @@ export const PipelineUI = () => {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
+  //nodes color for minimap
+
+  const nodeColor = useCallback((node) => {
+    switch (node.type) {
+      case "customInput":
+        return "#10B981";
+      case "dataTransformer":
+        return "#6366F1";
+      case "condition":
+        return "#F59E0B";
+      case "debug":
+        return "#EF4444";
+      case "memory":
+        return "#14B8A6";
+      case "llm":
+        return "#8B5CF6";
+      case "customOutput":
+        return "#3B82F6";
+      case "text":
+        return "#F97316";
+      case "api":
+        return "#06B6D4";
+      default:
+        return "#999";
+    }
+  }, []);
+
   return (
-    <>
-      <div
-        ref={reactFlowWrapper}
-        className="w-screen lg:h-[75vh] h-[70vh] bg-[#fdfafab0]"
+    <div ref={reactFlowWrapper} className="w-screen lg:h-[75vh] h-[70vh]">
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        onInit={setReactFlowInstance}
+        nodeTypes={nodeTypes}
+        proOptions={proOptions}
+        snapGrid={[gridSize, gridSize]}
+        connectionLineType="smoothstep"
       >
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          onInit={setReactFlowInstance}
-          nodeTypes={nodeTypes}
-          proOptions={proOptions}
-          snapGrid={[gridSize, gridSize]}
-          connectionLineType="smoothstep"
-        >
-          <Background color="#aaa" gap={gridSize} />
-          <Controls />
-          <MiniMap />
-        </ReactFlow>
-      </div>
-    </>
+        <Background color="#aaa" gap={gridSize} />
+        <Controls />
+        <MiniMap
+          nodeColor={nodeColor}
+          className="bg-white border border-gray-300"
+        />
+      </ReactFlow>
+    </div>
   );
 };
