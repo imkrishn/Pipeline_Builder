@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <div className="bg-[#eeeded59]">
+    <div className="bg-[#f5f5f559]">
       <Navbar />
       <Toolbar />
       <PipelineUI />

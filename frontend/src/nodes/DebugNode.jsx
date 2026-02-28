@@ -8,6 +8,7 @@ export const DebugerNode = ({ id }) => {
       type="debug"
       title="Debug"
       icon={Terminal}
+      leftHandles={["input"]}
       rightHandles={["output"]}
     >
       <div className="text-[11px] text-gray-500 mb-2">Debug flow</div>

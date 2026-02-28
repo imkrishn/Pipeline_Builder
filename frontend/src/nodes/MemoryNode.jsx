@@ -8,6 +8,7 @@ export const MemoryNode = ({ id }) => {
       type="memory"
       title="Memory"
       icon={Database}
+      leftHandles={["input"]}
       rightHandles={["output"]}
     >
       <div className="text-[11px] text-gray-500 mb-2">Store data</div>
